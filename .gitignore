@@ -1,7 +1,7 @@
 node_modules
 
-bundle.js
+dist/css
+dist/js
+dist/fonts
 
 *.log
-
-dist/css
