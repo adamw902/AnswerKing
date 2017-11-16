@@ -8,13 +8,20 @@ import {OrderModel} from "../../models/orderModel";
 import NotificationService from "../../services/notificationService";
 import * as Radio from "backbone.radio";
 
-export class OrderItemsCompositeView extends Marionette.CompositeView<OrderItemModel, OrderItemsItemView>{
+export class OrderItemsCompositeView extends Marionette.CompositeView<OrderModel, OrderItemsItemView>{
     constructor(options?: any){
         options = options || {};
-        options.template = new TemplateLoader().loadTemplate("/src/pages/orderItems/orderItemsCompositeView.html");
+        options.template = new TemplateLoader().loadTemplate("/pages/orderItems/orderItemsCompositeView");
         options.childView = OrderItemsItemView;
         options.childViewContainer = "ul"
 
         super(options);
     }
+
+    // onShow(){
+    //     if (!this.model.collection){
+    //         $("#totalCost").remove();
+    //         this.$el.prepend("<p class='p-21'>Please add some items to the order.</p>");
+    //     }
+    // }
 }

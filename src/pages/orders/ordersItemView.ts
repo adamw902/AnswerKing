@@ -7,7 +7,7 @@ import {RouterService} from "../../services/routerService";
 export class OrdersItemView extends Marionette.ItemView<OrderModel>{
     constructor(options?: any){
         options = options || {};
-        options.template = new TemplateLoader().loadTemplate("/src/pages/orders/orderItemView.html");
+        options.template = new TemplateLoader().loadTemplate("/pages/orders/ordersItemView");
         options.tagName = "li";
         options.className = "list-group-item"
         options.events = {
@@ -15,6 +15,18 @@ export class OrdersItemView extends Marionette.ItemView<OrderModel>{
         };
 
         super(options);
+
+        this.ui = {
+            ordersItemActions: "#ordersItemActions",
+            ordersItemTotal: "#ordersItemTotal"
+        };
+    }
+
+    onShow(){
+        if (this.model.paid){
+            this.ui.ordersItemActions.toggleClass("hidden");
+            this.ui.ordersItemTotal.toggleClass("hidden");
+        }
     }
 
     deleteOrder(e){

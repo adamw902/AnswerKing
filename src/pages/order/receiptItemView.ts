@@ -5,7 +5,7 @@ import {ReceiptModel} from "../../models/receiptModel";
 export class ReceiptItemView extends Marionette.ItemView<ReceiptModel>{
     constructor(options?: any){
         options = options || {};
-        options.template = new TemplateLoader().loadTemplate("/src/pages/order/receiptItemView.html");
+        options.template = new TemplateLoader().loadTemplate("/pages/order/receiptItemView");
 
         super(options);
     }

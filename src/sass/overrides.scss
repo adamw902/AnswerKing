@@ -1,7 +1,15 @@
 .navbar{
-    background-color: #fff;
     margin-bottom: 0;
     border-bottom: 1px solid #333;
+
+    .navbar-nav {
+        font-size: 18px;
+    }
+
+    .navbar-nav > li > a {
+        padding-top: 25px;
+        height: 70px;
+    }
 }
 
 .list-group-item{

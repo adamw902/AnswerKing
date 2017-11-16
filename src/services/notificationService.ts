@@ -1,42 +1,103 @@
 import * as Radio from "backbone.radio";
+import {CategoryModel} from "../models/categoryModel";
 
 export default class NotificationService{
     static channelNames = {
         "orders": "notifications::orders",
-        "order": "notifications::order",
-        "products": "notifications::products"
+        "products": "notifications::products",
+        "categories": "notifications::categories"
     };
 
     static actions = {
         ordersLoaded: "orders:loaded",
         orderLoaded: "order:loaded",
-        productsLoaded: "products:loaded",
+        orderCreated: "order:created",
+        orderUpdated: "order:updated",
         addItemToOrder: "order:item:add",
         itemAdded: "order:item:added",
-        orderUpdated: "order:updated"
+        productsLoaded: "products:loaded",
+        productLoaded: "product:loaded",
+        productSaved: "product:saved",
+        productDeleted: "product:deleted",
+        showCategories: "categories:show",
+        categorySelected: "category:selected",
+        categoriesLoaded: "categories:loaded",
+        addProduct: "product:add",
+        editProduct: "product:edit",
+        closeModal: "modal:close",
+        deleteModel: "model:delete",
+        deleteConfirmed: "delete:confirmed"
     };
 
-    ordersLoaded(result){
-         Radio.channel(NotificationService.channelNames.orders).trigger(NotificationService.actions.ordersLoaded, result);
+    ordersLoaded(){
+         Radio.channel(NotificationService.channelNames.orders).trigger(NotificationService.actions.ordersLoaded);
     }
 
-    orderLoaded(result){
-        Radio.channel(NotificationService.channelNames.order).trigger(NotificationService.actions.orderLoaded, result);
+    orderLoaded(){
+        Radio.channel(NotificationService.channelNames.orders).trigger(NotificationService.actions.orderLoaded);
     }
 
-    productsLoaded(result){
-        Radio.channel(NotificationService.channelNames.products).trigger(NotificationService.actions.productsLoaded, result);
+    orderCreated(orderId: Number){
+        Radio.channel(NotificationService.channelNames.orders).trigger(NotificationService.actions.orderCreated, orderId);
     }
 
-    addItemToOrder(itemId){
-        Radio.channel(NotificationService.channelNames.order).trigger(NotificationService.actions.addItemToOrder, itemId);
+    productsLoaded(){
+        Radio.channel(NotificationService.channelNames.products).trigger(NotificationService.actions.productsLoaded);
     }
 
-    itemAdded(itemId){
-        Radio.channel(NotificationService.channelNames.order).trigger(NotificationService.actions.itemAdded, itemId);
+    productLoaded(){
+        Radio.channel(NotificationService.channelNames.products).trigger(NotificationService.actions.productLoaded);
     }
 
-    orderUpdated(result){
-        Radio.channel(NotificationService.channelNames.order).trigger(NotificationService.actions.orderUpdated, result);
+    productSaved(){
+        Radio.channel(NotificationService.channelNames.products).trigger(NotificationService.actions.productSaved);
+    }
+
+    productDeleted(){
+        Radio.channel(NotificationService.channelNames.products).trigger(NotificationService.actions.productDeleted);
+    }
+
+    addItemToOrder(itemId: Number){
+        Radio.channel(NotificationService.channelNames.orders).trigger(NotificationService.actions.addItemToOrder, itemId);
+    }
+
+    itemAdded(itemId: Number){
+        Radio.channel(NotificationService.channelNames.orders).trigger(NotificationService.actions.itemAdded, itemId);
+    }
+
+    orderUpdated(){
+        Radio.channel(NotificationService.channelNames.orders).trigger(NotificationService.actions.orderUpdated);
+    }
+
+    showCategories(){
+        Radio.channel(NotificationService.channelNames.categories).trigger(NotificationService.actions.showCategories);
+    }
+
+    categorySelected(categoryId: Number){
+        Radio.channel(NotificationService.channelNames.categories).trigger(NotificationService.actions.categorySelected, categoryId);
+    }
+
+    categoriesLoaded(){
+        Radio.channel(NotificationService.channelNames.categories).trigger(NotificationService.actions.categoriesLoaded);
+    }
+
+    addProduct(categoryId: Number){
+        Radio.channel(NotificationService.channelNames.products).trigger(NotificationService.actions.addProduct, categoryId);
+    }
+
+    editProduct(productId: Number){
+        Radio.channel(NotificationService.channelNames.products).trigger(NotificationService.actions.editProduct, productId);
+    }
+
+    closeModal(channel: string){
+        Radio.channel(channel).trigger(NotificationService.actions.closeModal);
+    }
+
+    deleteModel(channel: string, modelId: Number){
+        Radio.channel(channel).trigger(NotificationService.actions.deleteModel, modelId);
+    }
+
+    deleteConfirmed(channel, modelId: Number){
+        Radio.channel(channel).trigger(NotificationService.actions.deleteConfirmed, modelId);
     }
 }

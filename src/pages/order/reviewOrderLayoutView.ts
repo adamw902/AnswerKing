@@ -11,9 +11,11 @@ import {PaymentItemView} from "./paymentItemView";
 import {ReceiptItemView} from "./receiptItemView";
 
 export class ReviewOrderLayoutView extends Marionette.LayoutView<Backbone.Model>{
+    order: OrderModel;
+
     constructor(options?: any){
         options = options || {};
-        options.template = new TemplateLoader().loadTemplate("/src/pages/order/reviewOrderLayoutView.html");
+        options.template = new TemplateLoader().loadTemplate("/pages/order/reviewOrderLayoutView");
         options.tagName = "div";
         options.className = "review-order-div";
 
@@ -25,12 +27,17 @@ export class ReviewOrderLayoutView extends Marionette.LayoutView<Backbone.Model>
 
         super(options);
 
+        this.ui = {
+            closeReviewOrderDiv: "#closeReviewOrderDiv",
+            closeOrderDiv: "#closeOrderDiv"
+        };
+
         this.handleNotifications();
     }
 
     handleNotifications(){
-        this.listenTo(Radio.channel(NotificationService.channelNames.order), NotificationService.actions.orderLoaded, this.loadReview);
-        this.listenTo(Radio.channel(NotificationService.channelNames.order), NotificationService.actions.orderUpdated, this.loadReview);
+        this.listenTo(Radio.channel(NotificationService.channelNames.orders), NotificationService.actions.orderLoaded, this.loadReview);
+        this.listenTo(Radio.channel(NotificationService.channelNames.orders), NotificationService.actions.orderUpdated, this.loadPaymentOrReceipt);
     }
 
     onShow(){
@@ -39,45 +46,58 @@ export class ReviewOrderLayoutView extends Marionette.LayoutView<Backbone.Model>
 
     loadOrder(){
         this.showLoadingView(this.getRegion("orderItemsRegion"));
-        new OrderService().getOne(this.model.get("id"));
+        this.order = new OrderService().getOne(this.model.get("id"));
     }
 
     showLoadingView(region: Marionette.Region){
-        var loadingView = new LoadingView();
+        let loadingView = new LoadingView();
         region.show(loadingView);
     }
 
-    showOrderItems(order: OrderModel){
-        var orderItemsCompositeView = new OrderItemsCompositeView({
-            collection: order.orderItems,
-            model: order
+    showOrderItems(){
+        let orderItemsCompositeView = new OrderItemsCompositeView({
+            collection: this.order.orderItems,
+            model: this.order
         });
-        
-        this.getRegion("orderItemsRegion").show(orderItemsCompositeView);
+        let region = this.getRegion("orderItemsRegion");
+        region.show(orderItemsCompositeView);
     }
 
-    loadReview(order: OrderModel){
-        var orderItemsCompositeView = new OrderItemsCompositeView({
-            collection: order.orderItems,
-            model: order
+    loadReview(){
+        this.loadItems();
+        this.loadPaymentOrReceipt();
+    }
+
+    loadItems(){
+        let orderItemsCompositeView = new OrderItemsCompositeView({
+            collection: this.order.orderItems,
+            model: this.order
         });
-        this.getRegion("orderItemsRegion").show(orderItemsCompositeView);
+        let region = this.getRegion("orderItemsRegion");
+        region.show(orderItemsCompositeView);
+    }
 
-        if (!order.get("paid")){
-            var paymentItemView = new PaymentItemView({
-                model: order
-            });
-            this.getRegion("paymentRegion").show(paymentItemView);
-        }
-        else {
-            this.getRegion("paymentRegion").empty();
-            $("#closeReviewOrderDiv").toggleClass("hidden");
-            $("#closeOrderDiv").toggleClass("hidden");
-
-            var receiptItemView = new ReceiptItemView({
-                model: order.receipt
-            });
-            this.getRegion("receiptRegion").show(receiptItemView);
+    loadPaymentOrReceipt(){
+        if (this.order.orderItems.length > 0){
+            if (!this.order.get("paid")){
+                let paymentItemView = new PaymentItemView({
+                    model: this.order
+                });
+                let region = this.getRegion("paymentRegion");
+                region.show(paymentItemView);
+            }
+            else {
+                let region = this.getRegion("paymentRegion");
+                region.empty();
+                this.ui.closeReviewOrderDiv.toggleClass("hidden");
+                this.ui.closeOrderDiv.toggleClass("hidden");
+    
+                let receiptItemView = new ReceiptItemView({
+                    model: this.order.receipt
+                });
+                region = this.getRegion("receiptRegion");
+                region.show(receiptItemView);
+            }
         }
     }
 }

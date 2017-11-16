@@ -32,7 +32,7 @@ export class OrderItemsCollection extends Backbone.Collection<OrderItemModel>{
     }
 
     get totalCost(){
-        var sum: number = 0.00;
+        let sum: number = 0.00;
         if (this.models){
             this.models.forEach(function(orderItem: OrderItemModel){
                 sum += (orderItem.price * orderItem.quantity);

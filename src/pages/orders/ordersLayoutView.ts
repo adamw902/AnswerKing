@@ -9,17 +9,20 @@ import OrderService from "../../services/orderService";
 import * as Radio from "backbone.radio";
 
 export class OrdersLayoutView extends Marionette.LayoutView<Backbone.Model>{
-    ns: NotificationService;
+    paid: boolean;
+    orders: OrderCollection;
 
-    constructor(options?: any){
+    constructor(paid: boolean, options?: any){
         options = options || {};
-        options.template = new TemplateLoader().loadTemplate("/src/pages/orders/ordersLayoutView.html");
+        options.template = new TemplateLoader().loadTemplate("/pages/orders/ordersLayoutView");
         options.regions = {
             actionsRegion: "#actionsRegion",
             ordersRegion: "#ordersRegion"
         };
 
         super(options);
+
+        this.paid = paid;
 
         this.handleNotifications();
     }
@@ -34,28 +37,26 @@ export class OrdersLayoutView extends Marionette.LayoutView<Backbone.Model>{
     }
 
     showActionsPanel(){
-        var actionsView = new OrdersActionsView();
-        this.getRegion("actionsRegion").show(actionsView);
+        let actionsView = new OrdersActionsView(this.paid);
+        let region = this.getRegion("actionsRegion");
+        region.show(actionsView);
     }
 
     loadOrdersList(){
         this.showLoadingView(this.getRegion("ordersRegion"));
-        new OrderService().getAll();
+        this.orders = new OrderService().getAll(this.paid);
     }
 
-    showOrdersList(orders: OrderCollection){
-        if (orders){
-            var filteredOrders = orders.models.filter(order => order.get("paid") === false);
-            orders.models = filteredOrders;
-        }
-        var ordersCollectionView = new OrdersCollectionView({
-            collection: orders
+    showOrdersList(){
+        let ordersCollectionView = new OrdersCollectionView({
+            collection: this.orders
         });
-        this.getRegion("ordersRegion").show(ordersCollectionView);
+        let region = this.getRegion("ordersRegion");
+        region.show(ordersCollectionView);
     }
 
     showLoadingView(region: Marionette.Region){
-        var loadingView = new LoadingView();
+        let loadingView = new LoadingView();
         region.show(loadingView);
     }
 }

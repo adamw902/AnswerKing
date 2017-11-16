@@ -1,13 +1,18 @@
 <div class="page-title-bar">
-    <a href="#orders" class="btn orange-button">
+    <a href="#orders" class="btn purple-button">
         <span class="glyphicon glyphicon-chevron-left"></span>Orders
     </a>
     <h3>Order {{id}}</h3>
 </div>
+<div id="backButton" class="products-extra-button hidden">
+    <button class="btn purple-button js-back">
+        <span class="glyphicon glyphicon-chevron-left"></span><span class="glyphicon glyphicon-chevron-left"></span> Back
+    </button>
+</div>
 <div id="productsRegion"></div>
-<div class="review-order-button-div">
-    <a href="#orders/{{id}}/review" class="btn orange-button button-bar">
-        <p class="glyphicon glyphicon-chevron-up"></p>
-        <p>Review Order</p>
+<div id="reviewOrderButtonDiv" class="button-footer">
+    <a href="#orders/{{id}}/review" class="btn purple-button button-bar">
+        <span class="glyphicon glyphicon-chevron-up"></span><br/>
+        Review Order
     </a>
 </div>

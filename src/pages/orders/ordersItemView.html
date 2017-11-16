@@ -1,0 +1,12 @@
+<a href="#orders/{{id}}" class="btn order-list-item">
+    <div class="orders-item-name">
+        <p>Order {{id}}</p>
+    </div>
+    <div id="ordersItemTotal" class="orders-item-cost hidden">
+        <p>Total: £{{toMoneyFormat totalOrderCost }}</p>
+    </div>
+    <div id="ordersItemActions" class="orders-item-actions">
+        <!--button class="btn btn-success js-pay">Pay</button-->
+        <button class="btn btn-danger js-delete">Delete</button>
+    </div>
+</a>

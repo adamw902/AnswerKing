@@ -14,6 +14,7 @@ gulp.task('fonts:copy', function () {
 
 gulp.task('sass', function () {
     gulp.src([
+        "src/sass/variables.scss",
         "src/sass/app.scss", 
         "src/sass/overrides.scss"
         ])
@@ -26,7 +27,7 @@ gulp.task('sass', function () {
 gulp.task('css:aggregate:lib', function () {
     gulp.src([
         'node_modules/bootstrap/dist/css/bootstrap.min.css',
-        'node_modules/toastr/package/toastr.min.css'
+        'node_modules/toastr/package/build/toastr.min.css'
         ])
         //.pipe(cssmin(minfConfs.standardCss))
         .pipe(concat('lib.css'))

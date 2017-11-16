@@ -1,5 +1,8 @@
-$theme-orange: #f79604;
-$theme-orange-darker: #c47500;
+@import 'variables';
+
+html{
+    overflow-y: scroll;
+}
 
 body{
     padding-top: 70px;
@@ -10,12 +13,27 @@ body{
     float: right;
 }
 
+.top-right{
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
 .p-21{
     font-size: 21px;
 }
 
 .align-center{
     text-align: center;
+}
+
+.user-select{
+    display: inline-block;
+    width: inherit;
+}
+
+.container-after-header-button{
+    margin-top: 60px;
 }
 
 #mainRegion {
@@ -29,8 +47,39 @@ body{
     }
 }
 
+#actionsRegion{
+    > div > button, a {
+        margin-bottom: 30px;
+        font-size: 25px;
+        width: 100%;
+    }
+}
+
 .glyphicon{
     top: 2px;
+}
+
+.button-header{
+    position: fixed;
+    top: 70px;
+    left: 0;
+    z-index: 1001;
+    width: 100%;
+
+    > * {
+        font-size: 16px;
+    }
+}
+
+.button-footer{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+
+    > * {
+        font-size: 16px;
+    }
 }
 
 .button-bar{
@@ -40,28 +89,43 @@ body{
     border-right: 0;
     overflow: hidden;
     width: 100%;
+    min-height: 60px;
 }
 
-.orange-button,
-.orange-button:focus{
-    background-color: $theme-orange;
+.orange-button{
+    background-color: $themeOrange;
     color: #fff;
+
+    &:focus{
+        background-color: $themeOrange;
+        color: #fff;
+    }
+
+    &:hover, 
+    &:active{
+        background-color: $themeOrangeDarker;
+        color: #fff;
+    }
 }
 
-.orange-button:hover,
-.orange-button:active,
-.orange-button:active:hover,
-.orange-button:active:focus{
-    background-color: $theme-orange-darker;
+.purple-button{
+    background-color: $themePurple;
     color: #fff;
-}
 
-.title-bar{
-    text-align: center;
+    &:focus{
+        background-color: $themePurple;
+        color: #fff;
+    }
+
+    &:hover, 
+    &:active{
+        background-color: $themePurpleDarker;
+        color: #fff;
+    }
 }
 
 .logo{
-    margin: 10px 0;
+    margin: 10px;
     width: 50px;
     height: 50px;
 }
@@ -103,10 +167,38 @@ body{
     }
 }
 
-.new-order-button{
-    margin-bottom: 30px;
-    font-size: 25px;
-    width: 100%;
+.my-modal{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10000001;
+    display: flex;
+    background-color: rgba(95, 94, 94, 0.527);
+    justify-content: center;
+
+    .my-modal-box{
+        position: absolute;
+        top: 30px;
+        border-radius: 5px;
+        border: 2px solid #333;
+        background-color: #fff;
+        margin-top: 70px;
+        width: 315px;
+
+        .my-modal-title{
+            background-color: $themePurple;
+            color: #fff;
+            font-size: 18px;
+            border-bottom: 1px solid #333;
+            padding-left: 5px;
+        }
+
+        .my-modal-content {
+            padding: 20px;
+        }
+    }
 }
 
 .product-grid{
@@ -116,11 +208,32 @@ body{
 
     .product-card{
         padding: 1px;
-        flex: 1 0 140px;
+        flex-grow: 1;
+        width: 280px;
+        max-width: 280px;
+        position: relative;
 
         button{
             font-size: 18px;
+            height: 67px;
+            width: 100%;
         }
+
+        .card-icon{
+            right: 10px;
+            position: absolute;
+            top: 10px;
+        }
+    }
+}
+
+.products-extra-button{
+    padding-bottom: 5px;
+    width: 100%;
+
+    button{
+        font-size: 22px;
+        width: 100%;
     }
 }
 
@@ -129,53 +242,36 @@ body{
     width: 100%;
     border: 0;
 
-    > p {
+    .orders-item-name{
+        height: 30px;
         display: inline-block;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        margin: auto;
-        color: #333;
-        font-size: 16px;
-        height: 16px;
-        line-height: 1;
+
+        > p {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+            color: #333;
+            font-size: 16px;
+            height: 16px;
+            line-height: 1;
+        }
     }
 
-    > button {
+    .orders-item-actions {
         float: right;
         margin-left: 10px;
     }
-}
 
-.review-order-button-div{
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
+    .orders-item-cost{
+        float: right;
 
-    > a > p{
-        font-size: 16px;
-        margin: 0;
-    }
-}
-
-.review-order-div{
-    padding-top: 50px;
-
-    #reviewOrderTitleBar{
-        margin-top: 50px;
-    }
-
-    .close-review-order-button-div {
-        position: fixed;
-        top: 70px;
-        z-index: 10001;
-        left: 0;
-        width: 100%;
-    
-        > a > p{
+        > p {
+            position: relative;
+            top: 10px;
+            color: #333;
             font-size: 16px;
-            margin: 0;
+            line-height: 1;
         }
     }
 }
@@ -191,10 +287,6 @@ body{
         > p {
             margin: 0;
         }
-
-        > button {
-            float: right;
-        }
     }
 }
 
@@ -209,10 +301,10 @@ body{
 
     > button{
         flex: 2;
-    }
+    } 
 }
 
-@media(max-width: 375px){
+@media(max-width: 400px){
     .pay-form{
         width: 100%;
         display: block;
@@ -221,4 +313,4 @@ body{
             width: 100%;
         }
     }
-}
+} 

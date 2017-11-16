@@ -9,7 +9,8 @@ export class AnswerKing extends Marionette.Application {
     constructor(){
         super();
         super.addRegions({
-            mainRegion: "#mainRegion"
+            mainRegion: "#mainRegion",
+            navbarRegion: "#navbarRegion"
         });
         super.on("start", this.startApplication);
     }
@@ -19,6 +20,7 @@ export class AnswerKing extends Marionette.Application {
         
         this.routerService = new RouterService();
         this.routerService.setMainRegion(this.getRegion("mainRegion"));
+        this.routerService.setNavbarRegion(this.getRegion("navbarRegion"));
 
         if(Backbone.history){
             Backbone.history.start();
@@ -27,6 +29,6 @@ export class AnswerKing extends Marionette.Application {
 }
 
 $(document).ready(function(){
-    var app = new AnswerKing();
+    let app = new AnswerKing();
     app.start();
 });

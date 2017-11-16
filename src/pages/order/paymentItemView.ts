@@ -7,9 +7,7 @@ import {OrderModel} from "../../models/orderModel";
 export class PaymentItemView extends Marionette.ItemView<OrderModel>{
     constructor(options?: any){
         options = options || {};
-        options.template = new TemplateLoader().loadTemplate("/src/pages/order/paymentItemView.html");
-        options.tagName = "form";
-        options.className = "pay-form";
+        options.template = new TemplateLoader().loadTemplate("/pages/order/paymentItemView");
 
         options.events = {
             "click button.js-pay": "pay"
@@ -19,9 +17,12 @@ export class PaymentItemView extends Marionette.ItemView<OrderModel>{
     }
 
     pay(e){
-        e.preventDefault();
-        var data = Syphon.serialize(this);
+        let data = Syphon.serialize(this);
         this.model.set("payment", data.payment);
-        new OrderService().payForOrder(this.model);
+        
+        if (this.model.isValid()){
+            e.preventDefault();
+            new OrderService().payForOrder(this.model);
+        }
     }
 }

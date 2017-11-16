@@ -6,15 +6,22 @@
         <link rel="stylesheet" type="text/css" href="./dist/css/app.css">
     </head>
     <body>
-        <div class="navbar navbar-fixed-top">
-            <div class="navbar-inner">
-                <div class="title-bar">
-                    <a href="#orders"><img class="logo" src="./dist/img/answer-king.png"/></a>
-                </div>
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="navbar-header">
+                <a href="#orders"><img class="logo" src="./dist/img/answer-king.png" alt="AnswerKing"/></a>
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
             </div>
-        </div>
+            <div id="navbarRegion"></div>
+        </nav>
         <div id="mainRegion"></div>
 
-        <script src="./dist/bundle.js"></script>
+        <script src="./dist/js/bundle.js"></script>
+        <script src="./dist/js/jquery.min.js"></script>
+        <script src="./dist/js/bootstrap.min.js"></script>
     </body>
 </html>

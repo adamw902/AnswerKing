@@ -6,29 +6,32 @@ import * as Backbone from "backbone";
 import {ReceiptModel} from "../models/receiptModel";
 
 export default class OrderService{
-    getAll(){
-        var orders = new OrderCollection();
+    getAll(paid: boolean){
+        let orders = new OrderCollection();
         orders.fetch({
+            data: $.param({paid: paid}),
             success: function(result){
-                new NotificationService().ordersLoaded(orders);
+                new NotificationService().ordersLoaded();
             }
         });
+        return orders;
     }
 
     getOne(id: Number){
-        var order = new OrderModel({id: id});
+        let order = new OrderModel({id: id});
         order.fetch({
             success: function(result){
-                new NotificationService().orderLoaded(order);
+                new NotificationService().orderLoaded();
             }
         });
+        return order;
     }
 
     newOrder(){
-        var order = new OrderModel();
+        let order = new OrderModel();
         order.save(order.attributes, { 
             success: function(result){
-                new NotificationService().orderLoaded(order);
+                new NotificationService().orderCreated(order.id);
             }
         });
     }
@@ -36,7 +39,7 @@ export default class OrderService{
     deleteOrder(order: OrderModel){
         order.destroy({
             success: function(){
-                new RouterService().showOrders();
+                new RouterService().showOrders(false);
             }
         });
     }
@@ -44,18 +47,18 @@ export default class OrderService{
     payForOrder(order: OrderModel){
         order.save(order.attributes, {
             success: function(result){
-                new NotificationService().orderUpdated(order);
+                new NotificationService().orderUpdated();
             }
         });
+        return order;
     }
 
     addItem(orderId: Number, itemId: Number){
-        var order = new OrderModel({
+        let order = new OrderModel({
             id: orderId,
             itemId: itemId
         });
         order.save(order.attributes, {
-            dataType: "text",
             success: function(result){
                 new NotificationService().itemAdded(itemId);
             }

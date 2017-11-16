@@ -8,7 +8,7 @@ export class LoadingView extends Marionette.ItemView<Backbone.Model>{
         }
         options.tagName = "div";
         options.className = "loading-container";
-        options.template = new TemplateLoader().loadTemplate("/src/components/loadingView.html");
+        options.template = new TemplateLoader().loadTemplate("components/loadingView");
         super(options);
     }
 }

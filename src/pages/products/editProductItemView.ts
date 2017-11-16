@@ -1,23 +1,23 @@
 import * as Marionette from "backbone.marionette";
+import NotificationService from "../../services/notificationService";
 import TemplateLoader from "../../utilities/templateLoader";
 import {ProductModel} from "../../models/productModel";
-import NotificationService from "../../services/notificationService";
 
-export class ProductItemView extends Marionette.ItemView<ProductModel>{
+export class EditProductItemView extends Marionette.ItemView<ProductModel> {
     constructor(options?: any){
         options = options || {};
-        options.template = new TemplateLoader().loadTemplate("/pages/products/productItemView");
+        options.template = new TemplateLoader().loadTemplate("/pages/products/editProductItemView");
         options.tagName = "div";
         options.className = "product-card";
 
         options.events = {
-            "click button.js-add": "addItemToOrder"
+            "click button.js-edit": "editProduct"
         };
 
         super(options);
     }
 
-    addItemToOrder(){
-        new NotificationService().addItemToOrder(this.model.get("id"));
+    editProduct(){
+        new NotificationService().editProduct(this.model.id);
     }
 }

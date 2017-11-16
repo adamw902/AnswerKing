@@ -1,0 +1,18 @@
+<div class="my-modal-box">
+    <div id="addTitle" class="my-modal-title hidden">Add {{category.description}}</div>
+    <div id="editTitle" class="my-modal-title hidden">Edit {{category.description}}</div>
+    <form id="productForm" class="my-modal-content">
+        <input type="hidden" name="categoryId" value="{{category.id}}"/>
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input id="name" name="name" type="text" placeholder="e.g. burger" class="form-control" required />
+        </div>
+        <div class="form-group">
+            <label for="price">Price (£)</label>
+            <input id="price" name="price" type="number" placeholder="e.g. 1.99" min="0.01" step="0.01" class="form-control" required />
+        </div>
+        <button type="submit" class="btn purple-button js-save">Save</button>
+        <button id="deleteButton" class="btn btn-danger js-delete hidden">Delete</button>
+        <button class="btn btn-default right js-cancel">Cancel</button>
+    </form>
+</div>
